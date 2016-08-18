@@ -1,0 +1,10 @@
+
+* Sumatra setup
+
+I used 
+#+BEGIN_SRC 
+smt init anisotropic-connectivity-local-circuits --datapath=./data/ --input=./data/ 
+#+END_SRC
+
+
+* Data back-up
