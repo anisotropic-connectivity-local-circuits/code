@@ -40,11 +40,18 @@ class Test_rotate(unittest.TestCase):
 
 class Test_find_axon_targets(unittest.TestCase):
 
-    positions = np.array([[1,1],[1,-1],[-1,1],[-1,-1]])
-    w = lambda x: 1.5
+    positions = np.array([[0,0],[1,1],[-1,1],[-1,-1],[1,-1]])
+    positions = positions + np.array([1,1])
 
-    # def find_correct_targets(self):
-    #     find_axon_targets(
+    def test_find_correct_targets(self):
+        w = lambda x: .5
+        self.assertListEqual([],
+            find_axon_targets(0, 0, self.positions, w))
+        for k in [1,2,3,4]:         
+            self.assertEqual([k],
+                find_axon_targets(0, np.pi/4.+np.pi/2.*(k-1),
+                                  self.positions, w))
+
 
 class Test_connect_graph(unittest.TestCase):
 

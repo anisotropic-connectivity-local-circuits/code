@@ -9,7 +9,6 @@ def distribute_neurons_randomly(N, ed_l):
 def rotate(alpha, positions):
     rot_matrix = np.array([[np.cos(alpha), -np.sin(alpha)],
                            [np.sin(alpha),np.cos(alpha)]])
-
     return np.array([np.dot(rot_matrix,np.transpose(pos))
                      for pos in positions])
 
@@ -19,11 +18,11 @@ def find_axon_targets(i, alpha, positions, w):
     i: index of source neuron
     alpha: axon direction
     positions: matrix of positions
+    w: function returning the axon width/2
     '''
 
-    targets = []
-    
-    npositions = rotate(alpha, positions - positions[i])
+    targets = []    
+    npositions = rotate(-alpha, positions - positions[i])
     
     for k, pos in enumerate(npositions):
         ylim = w(pos[0])
