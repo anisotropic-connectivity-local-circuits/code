@@ -31,9 +31,11 @@ class Test_rotate(unittest.TestCase):
 
     x = [[1,1], [0,0], [-5,5]]
 
-    # def test_correct_result(self):
-    #     self.assertNpArrayEqual(list(rotate(np.pi, self.x)),
-    #                          [[-1,1],[0,0],[5,-5]])
+    def test_correct_result(self):
+
+        self.assertTrue(np.allclose(
+            rotate(np.pi, self.x),
+            np.array([[-1.,-1.],[0.,0.],[5.,-5.]])))
 
 
 class Test_find_axon_targets(unittest.TestCase):
