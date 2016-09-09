@@ -8,3 +8,8 @@ smt init anisotropic-connectivity-local-circuits --datapath=./data/ --input=./da
 
 
 * Data back-up
+
+using the ~backup_dir.sh~ shell script
+#+BEGIN_SRC 
+. backup_dir.sh
+#+END_SRC
