@@ -3,6 +3,10 @@ import unittest
 
 import numpy as np
 
+import graph_tool as gt
+import graph_tool.stats 
+
+
 from functions import distribute_neurons_randomly, generate_aniso_network
 
 
@@ -27,9 +31,7 @@ class Test_generate_aniso_network(unittest.TestCase):
 
     N = 1000
     w = 12.6
-    g = generate_aniso_network(N, w,
-                               with_self_loops = False,
-                               with_parallel_edges = False)
+    g = generate_aniso_network(N, w)
 
     def test_number_of_vertices(self):
         self.assertEqual(self.N, self.g.num_vertices())
@@ -61,12 +63,26 @@ class Test_generate_aniso_network(unittest.TestCase):
             self.assertGreaterEqual(xy[self.g.vertex(i)][0], 0.)
             self.assertGreaterEqual(xy[self.g.vertex(i)][1], 0.)
             self.assertLessEqual(xy[self.g.vertex(i)][0], 212.)
-            self.assertLessEqual(xy[self.g.vertex(i)][1], 212.)        
-        
+            self.assertLessEqual(xy[self.g.vertex(i)][1], 212.)
+
+              
     # def test_vertex_positions(self):
     #     self.
-        
 
+
+    # we expect the graph to have no self loops
+    def test_graph_self_loops(self):
+        ne_before = self.g.num_edges()
+        gt.stats.remove_self_loops(self.g)
+        ne_after = self.g.num_edges()
+        self.assertEqual(ne_before, ne_after)
+
+    # we expect the graph to have no self loops
+    def test_graph_parallel_edges(self):
+        ne_before = self.g.num_edges()
+        gt.stats.remove_parallel_edges(self.g)
+        ne_after = self.g.num_edges()
+        self.assertEqual(ne_before, ne_after)
         
 
 if __name__ == '__main__':
