@@ -77,12 +77,9 @@ def generate_aniso_network(N, w, ed_l = 212., save_path = ''):
     # add axon angle for each vertex and connect
     axon_angle = g.new_vertex_property("double")
     for i in range(N):
-        deg = np.random.randint(0,36000)/100.
-        #sys.stdout.write("\rAlpha: %.2f;\t %d of %d;\t %.2f%%" % (a_deg,base_index,N,base_index/float(N)*100))
-        #sys.stdout.flush()
-        alpha = deg/180. * np.pi
-        targets = find_axon_targets(i, alpha, positions, w)
+        alpha = np.random.uniform(0,2*np.pi)
         axon_angle[g.vertex(i)] = alpha
+        targets = find_axon_targets(i, alpha, positions, w)
         g = connect_graph(g, i, targets)
 
     g.vertex_properties["alpha"] = axon_angle
