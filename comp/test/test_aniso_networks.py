@@ -7,8 +7,11 @@ import graph_tool as gt
 import graph_tool.stats 
 
 
-from functions import distribute_neurons_randomly, generate_aniso_network
+from functions import distribute_neurons_randomly, generate_aniso_network, rotate, find_axon_targets, connect_graph
 
+
+# TODO: 1. Findout np array equal for testing
+#       2. graph_tool edge exists?
 
 class Test_distribute_neurons_randomly(unittest.TestCase):
 
@@ -23,6 +26,37 @@ class Test_distribute_neurons_randomly(unittest.TestCase):
     def test_dimensions(self):
         self.assertTupleEqual(np.shape(self.pos), (self.N, 2))
         
+
+class Test_rotate(unittest.TestCase):
+
+    x = [[1,1], [0,0], [-5,5]]
+
+    # def test_correct_result(self):
+    #     self.assertNpArrayEqual(list(rotate(np.pi, self.x)),
+    #                          [[-1,1],[0,0],[5,-5]])
+
+
+class Test_find_axon_targets(unittest.TestCase):
+
+    positions = np.array([[1,1],[1,-1],[-1,1],[-1,-1]])
+    w = lambda x: 1.5
+
+    # def find_correct_targets(self):
+    #     find_axon_targets(
+
+class Test_connect_graph(unittest.TestCase):
+
+    g = gt.Graph()
+    g.add_vertex(5)
+
+    def test_connection_established(self):
+        g = connect_graph(self.g, 2, [1,4])
+        targets = []
+        for e in g.edges():
+            self.assertEqual(int(e.source()), 2)
+            targets.append(int(e.target()))
+        self.assertListEqual(targets,[1,4])
+        
         
 class Test_generate_aniso_network(unittest.TestCase):
 
@@ -30,7 +64,7 @@ class Test_generate_aniso_network(unittest.TestCase):
     # 1. test vertex propoerty for assigned ed_l as well
 
     N = 1000
-    w = 12.6
+    w = lambda x: 12.6
     g = generate_aniso_network(N, w)
 
     def test_number_of_vertices(self):
@@ -65,6 +99,14 @@ class Test_generate_aniso_network(unittest.TestCase):
             self.assertLessEqual(xy[self.g.vertex(i)][0], 212.)
             self.assertLessEqual(xy[self.g.vertex(i)][1], 212.)
 
+
+    def test_vertex_property_alpha(self):
+        alpha = self.g.vertex_properties["alpha"]
+        for v in self.g.vertices():
+            self.assertEqual(type(alpha[v]), float)
+            self.assertGreaterEqual(alpha[v], 0.)
+            self.assertLessEqual(alpha[v], 2*np.pi)
+            
               
     # def test_vertex_positions(self):
     #     self.

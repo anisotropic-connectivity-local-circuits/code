@@ -6,35 +6,36 @@ import numpy as np
 def distribute_neurons_randomly(N, ed_l):
     return np.random.uniform(0,ed_l, (N, 2))
 
+def rotate(alpha, positions):
+    rot_matrix = np.array([[np.cos(alpha), -np.sin(alpha)],
+                           [np.sin(alpha),np.cos(alpha)]])
 
-def find_axon_targets(i, positions, w):    
+    return np.array([np.dot(rot_matrix,np.transpose(pos))
+                     for pos in positions])
+
+
+def find_axon_targets(i, alpha, positions, w):    
     '''
     i: index of source neuron
+    alpha: axon direction
     positions: matrix of positions
     '''
 
-    
-
-    deg = np.random.randint(0,36000)/100.
-    
-    #sys.stdout.write("\rAlpha: %.2f;\t %d of %d;\t %.2f%%" % (a_deg,base_index,N,base_index/float(N)*100))
-    #sys.stdout.flush()
-    
-    alpha = deg/180. * np.pi
     targets = []
     
-    # npositions = rotate(alpha, positions - positions[i])
+    npositions = rotate(alpha, positions - positions[i])
     
-    # for k, pos in enumerate(npositons):
-    #     ylim = w(pos[0])
-    #     if -ylim <= pos[1] <= ylim and 0 < pos[0]:
-    #         targets.append(k)
+    for k, pos in enumerate(npositions):
+        ylim = w(pos[0])
+        if -ylim <= pos[1] <= ylim and 0 < pos[0]:
+            targets.append(k)
         
-    return alpha, targets
+    return targets
 
 
 def connect_graph(g, i, targets):
-
+    for j in targets:
+        g.add_edge(g.vertex(i), g.vertex(j))
     return g
 
 
@@ -76,9 +77,14 @@ def generate_aniso_network(N, w, ed_l = 212., save_path = ''):
     # add axon angle for each vertex and connect
     axon_angle = g.new_vertex_property("double")
     for i in range(N):
-        alpha, targets = find_axon_targets(i, positions, w)
+        deg = np.random.randint(0,36000)/100.
+        #sys.stdout.write("\rAlpha: %.2f;\t %d of %d;\t %.2f%%" % (a_deg,base_index,N,base_index/float(N)*100))
+        #sys.stdout.flush()
+        alpha = deg/180. * np.pi
+        targets = find_axon_targets(i, alpha, positions, w)
         axon_angle[g.vertex(i)] = alpha
         g = connect_graph(g, i, targets)
 
+    g.vertex_properties["alpha"] = axon_angle
         
     return g
