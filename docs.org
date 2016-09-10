@@ -18,5 +18,7 @@ using the ~backup_dir.sh~ shell script
 * unit testing
 
 #+BEGIN_SRC
-nosetests comp/tests/
+nosetests -s comp/test/test_aniso_networks.py 
 #+END_SRC
+
+-s for printing allowed
