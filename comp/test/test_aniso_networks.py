@@ -7,7 +7,9 @@ import graph_tool as gt
 import graph_tool.stats
 import graph_tool.topology
 
-from functions import generate_aniso_network, rotate, find_axon_targets
+from functions import ( generate_aniso_network,
+                        rotate,
+                        find_axon_targets )
 
 
 class Test_rotate(unittest.TestCase):
