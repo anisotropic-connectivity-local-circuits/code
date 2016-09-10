@@ -7,9 +7,13 @@ import graph_tool as gt
 import graph_tool.stats
 import graph_tool.topology
 
+# get tested
 from functions import ( generate_aniso_network,
                         rotate,
                         find_axon_targets )
+
+# functions assisting in testing
+from functions import (eval_connectivity)
 
 
 class Test_rotate(unittest.TestCase):
@@ -111,8 +115,15 @@ class Test_generate_aniso_network(unittest.TestCase):
         os.remove(self.spath)
         
     def test_expected_connectivity(self):
-        raise NotImplementedError
-        
+        N, w, ed_l = 1000, lambda x: 12.6, 100.
+        mu_list = []
+        for k in range(5):
+            h = generate_aniso_network(N, w, ed_l)        
+            mu_list.append(eval_connectivity(h))
+        mu = np.mean(mu_list)            
+        self.assertGreaterEqual(mu, 0.115)
+        self.assertLessEqual(mu, 0.117)
+
 
 if __name__ == '__main__':
     unittest.main()
