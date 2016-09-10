@@ -2,9 +2,9 @@
 import graph_tool as gt
 import numpy as np
 
+from network_building import distribute_neurons_randomly
+from network_building import connect_graph
 
-def distribute_neurons_randomly(N, ed_l):
-    return np.random.uniform(0,ed_l, (N, 2))
 
 def rotate(alpha, positions):
     rot_matrix = np.array([[np.cos(alpha), -np.sin(alpha)],
@@ -30,12 +30,6 @@ def find_axon_targets(i, alpha, positions, w):
             targets.append(k)
         
     return targets
-
-
-def connect_graph(g, i, targets):
-    for j in targets:
-        g.add_edge(g.vertex(i), g.vertex(j))
-    return g
 
 
 def generate_aniso_network(N, w, ed_l = 212., save_path = ''):

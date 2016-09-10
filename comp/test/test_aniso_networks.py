@@ -6,26 +6,8 @@ import numpy as np
 import graph_tool as gt
 import graph_tool.stats 
 
+from functions import generate_aniso_network, rotate, find_axon_targets
 
-from functions import distribute_neurons_randomly, generate_aniso_network, rotate, find_axon_targets, connect_graph
-
-
-# TODO: 1. Findout np array equal for testing
-#       2. graph_tool edge exists?
-
-class Test_distribute_neurons_randomly(unittest.TestCase):
-
-    N = 1000
-    ed_l = 212
-    pos = distribute_neurons_randomly(N, ed_l)
-
-    def test_positions_are_within_square(self):
-        self.assertLessEqual(np.max(self.pos), self.ed_l)
-        self.assertGreaterEqual(np.min(self.pos), 0)
-
-    def test_dimensions(self):
-        self.assertTupleEqual(np.shape(self.pos), (self.N, 2))
-        
 
 class Test_rotate(unittest.TestCase):
 
@@ -52,20 +34,6 @@ class Test_find_axon_targets(unittest.TestCase):
                 find_axon_targets(0, np.pi/4.+np.pi/2.*(k-1),
                                   self.positions, w))
 
-
-class Test_connect_graph(unittest.TestCase):
-
-    g = gt.Graph()
-    g.add_vertex(5)
-
-    def test_connection_established(self):
-        g = connect_graph(self.g, 2, [1,4])
-        targets = []
-        for e in g.edges():
-            self.assertEqual(int(e.source()), 2)
-            targets.append(int(e.target()))
-        self.assertListEqual(targets,[1,4])
-        
         
 class Test_generate_aniso_network(unittest.TestCase):
 
@@ -115,12 +83,8 @@ class Test_generate_aniso_network(unittest.TestCase):
             self.assertEqual(type(alpha[v]), float)
             self.assertGreaterEqual(alpha[v], 0.)
             self.assertLessEqual(alpha[v], 2*np.pi)
+
             
-              
-    # def test_vertex_positions(self):
-    #     self.
-
-
     # we expect the graph to have no self loops
     def test_graph_self_loops(self):
         ne_before = self.g.num_edges()
@@ -128,12 +92,19 @@ class Test_generate_aniso_network(unittest.TestCase):
         ne_after = self.g.num_edges()
         self.assertEqual(ne_before, ne_after)
 
-    # we expect the graph to have no self loops
+    # we expect the graph to have no parallel edges
     def test_graph_parallel_edges(self):
         ne_before = self.g.num_edges()
         gt.stats.remove_parallel_edges(self.g)
         ne_after = self.g.num_edges()
         self.assertEqual(ne_before, ne_after)
+
+
+    def test_graph_saving(self):
+        raise NotImplementedError
+
+    def test_expected_connectivity(self):
+        raise NotImplementedError
         
 
 if __name__ == '__main__':
