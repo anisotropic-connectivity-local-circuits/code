@@ -22,3 +22,11 @@ nosetests -s comp/test/test_aniso_networks.py
 #+END_SRC
 
 -s for printing allowed
+
+
+* git 
+
+use to "un-commit" last commit but keep the changes
+#+BEGIN_SRC 
+git reset HEAD~1 --soft
+#+END_SRC
