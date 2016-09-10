@@ -46,7 +46,18 @@ class Test_get_xy(unittest.TestCase):
             self.assertLess(y, 100.)
 
 
-#class Test_get_target_ids(unittest.TestCase):
+class Test_get_target_ids(unittest.TestCase):
+
+    g = gt.Graph()
+    g.add_vertex(3)
+    g.add_edge(g.vertex(0), g.vertex(1))
+    g.add_edge(g.vertex(0), g.vertex(2))
+
+    def test_get_correct_target_ids(self):
+        targets_0 = get_target_ids(self.g, 0)
+        targets_1 = get_target_ids(self.g, 1)
+        self.assertListEqual(targets_0, [1,2])
+        self.assertListEqual(targets_1, [])
     
         
 if __name__ == '__main__':
