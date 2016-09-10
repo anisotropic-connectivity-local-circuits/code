@@ -50,20 +50,24 @@ class Test_generate_aniso_network(unittest.TestCase):
     N = 1000
     w = lambda x: 12.6
     spath = 'data/test/N1000_w126.gt'
-    g = generate_aniso_network(N, w,
+    ed_l = 100.
+    g = generate_aniso_network(N, w, ed_l,
                                save_path=spath)
 
+    w_t = lambda x: x
+    g_t = generate_aniso_network(N, w_t, ed_l)
+    
     def test_number_of_vertices(self):
         self.assertEqual(self.N, self.g.num_vertices())
 
     # graph properties
     def test_graph_property_graph_type(self):
         self.assertEqual(self.g.graph_properties["graph_type"],
-                         "anisotropic")
+                         "aniso")
         
     def test_graph_property_edge_length(self):
         self.assertEqual(self.g.graph_properties["ed_l"],
-                         212.)
+                         self.ed_l)
     
     def test_graphy_property_rewired(self):
         self.assertFalse(self.g.graph_properties["rewired"])
@@ -121,9 +125,16 @@ class Test_generate_aniso_network(unittest.TestCase):
             h = generate_aniso_network(N, w, ed_l)        
             mu_list.append(eval_connectivity(h))
         mu = np.mean(mu_list)            
-        self.assertGreaterEqual(mu, 0.115)
-        self.assertLessEqual(mu, 0.117)
+        self.assertGreaterEqual(mu, 0.1145)
+        self.assertLessEqual(mu, 0.1175)
 
+
+    # tuned aniso graphs
+
+    def test_tuned_graph_property(self):
+        self.assertEqual(self.g_t.graph_properties["graph_type"],
+                         "tuned_aniso")
+        
 
 if __name__ == '__main__':
     unittest.main()
