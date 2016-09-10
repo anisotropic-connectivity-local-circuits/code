@@ -1,10 +1,11 @@
 
-import unittest
+import unittest, os
 
 import numpy as np
 
 import graph_tool as gt
-import graph_tool.stats 
+import graph_tool.stats
+import graph_tool.topology
 
 from functions import generate_aniso_network, rotate, find_axon_targets
 
@@ -42,7 +43,9 @@ class Test_generate_aniso_network(unittest.TestCase):
 
     N = 1000
     w = lambda x: 12.6
-    g = generate_aniso_network(N, w)
+    spath = 'data/test/N1000_w126.gt'
+    g = generate_aniso_network(N, w,
+                               save_path=spath)
 
     def test_number_of_vertices(self):
         self.assertEqual(self.N, self.g.num_vertices())
@@ -101,8 +104,10 @@ class Test_generate_aniso_network(unittest.TestCase):
 
 
     def test_graph_saving(self):
-        raise NotImplementedError
-
+        h = gt.load_graph(self.spath)
+        self.assertTrue(gt.topology.isomorphism(self.g,h))
+        os.remove(self.spath)
+        
     def test_expected_connectivity(self):
         raise NotImplementedError
         

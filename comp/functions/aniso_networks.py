@@ -76,5 +76,9 @@ def generate_aniso_network(N, w, ed_l = 212., save_path = ''):
         g = connect_graph(g, i, targets)
 
     g.vertex_properties["alpha"] = axon_angle
+
+    if not save_path == '':
+        g.save(save_path) 
+        print "Graph saved to: %s" %(save_path)
         
     return g
