@@ -8,7 +8,8 @@ import graph_tool as gt
 # get tested
 from functions import ( eval_connectivity,
                         get_xy,
-                        get_target_ids )
+                        get_target_ids,
+                        get_dist_matrix )
 
 # functions assisting in testing
 from functions import ( generate_aniso_network )
@@ -59,6 +60,33 @@ class Test_get_target_ids(unittest.TestCase):
         self.assertListEqual(targets_0, [1,2])
         self.assertListEqual(targets_1, [])
     
+
+
+class Test_get_dist_matrix(unittest.TestCase):
+
+    g = gt.Graph()
+
+    positions = [[0.,0.],[1.,1.]]
+    xy = g.new_vertex_property("vector<double>")
+    for k in range(len(positions)):
+        g.add_vertex()
+        xy[g.vertex(k)] = list(positions[k])
+    g.vertex_properties["xy"] = xy
+
+    def test_correct_distances(self):
+        D = get_dist_matrix(self.g)
+        self.assertEqual(D[0][1], D[1][0])
+        self.assertEqual(D[0][1], np.sqrt(2))
+        self.assertEqual(D[0][0], D[1][1])
+        self.assertEqual(D[0][0], 0.)
+
+    def test_dist_matrix_symmetric(self):
+        D = get_dist_matrix(self.g)
+        np.testing.assert_array_equal(D,D.transpose())
+
         
 if __name__ == '__main__':
     unittest.main()
+
+
+    
