@@ -121,12 +121,13 @@ class Test_generate_aniso_network(unittest.TestCase):
     def test_expected_connectivity(self):
         N, w, ed_l = 1000, lambda x: 12.6, 100.
         mu_list = []
-        for k in range(5):
+        for k in range(3):
             h = generate_aniso_network(N, w, ed_l)        
             mu_list.append(eval_connectivity(h))
-        mu = np.mean(mu_list)            
-        self.assertGreaterEqual(mu, 0.1145)
-        self.assertLessEqual(mu, 0.1175)
+        mu = np.mean(mu_list)
+        # expected 0.116 +- 0.05
+        self.assertGreaterEqual(mu, 0.111)
+        self.assertLessEqual(mu, 0.121)
 
     def test_axon_angle_distribution_has_mean_zero(self):
         alpha = self.g.vertex_properties["alpha"]

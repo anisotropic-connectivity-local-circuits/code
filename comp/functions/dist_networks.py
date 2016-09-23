@@ -18,8 +18,6 @@ def connect_dist_network(g, d):
 
     return g
 
-   
-
 
 
 def generate_dist_network(N, d, ed_l, save_path = ''):
