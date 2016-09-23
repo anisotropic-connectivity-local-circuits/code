@@ -128,6 +128,13 @@ class Test_generate_aniso_network(unittest.TestCase):
         self.assertGreaterEqual(mu, 0.1145)
         self.assertLessEqual(mu, 0.1175)
 
+    def test_axon_angle_distribution_has_mean_zero(self):
+        alpha = self.g.vertex_properties["alpha"]
+        dirs = [[np.sin(alpha[v]), np.cos(alpha[v])]
+                for v in self.g.vertices()]
+        norm = lambda x: np.sqrt(np.sum(x**2))
+        self.assertLess(norm((np.mean(dirs,0))), 0.1)
+            
 
     # tuned aniso graphs
 
