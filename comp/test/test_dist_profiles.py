@@ -10,7 +10,8 @@ from functions import ( Aniso_netw_dist_profile )
 class Test_Aniso_netw_dist_profile(unittest.TestCase):
 
     def test_profile(self):
-        raise NotImplementedError
+        #raise NotImplementedError
+        self.assertTrue(False)
 
    
 

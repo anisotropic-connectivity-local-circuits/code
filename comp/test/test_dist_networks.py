@@ -45,7 +45,7 @@ class Test_generate_dist_network(unittest.TestCase):
 
     N, ed_l, w = 1000, 100, 12.6
     dist_profile = Aniso_netw_dist_profile(w)
-    spath = 'data/test/N1000_dist.gt'
+    spath = 'data/tmp_N1000_dist.gt'
 
     g = generate_dist_network(N, dist_profile.C, ed_l,
                               save_path = spath)

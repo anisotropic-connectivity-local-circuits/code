@@ -49,7 +49,7 @@ class Test_generate_aniso_network(unittest.TestCase):
 
     N = 1000
     w = lambda x: 12.6
-    spath = 'data/test/N1000_w126.gt'
+    spath = 'data/tmp_N1000_w126.gt'
     ed_l = 100.
     g = generate_aniso_network(N, w, ed_l,
                                save_path=spath)
