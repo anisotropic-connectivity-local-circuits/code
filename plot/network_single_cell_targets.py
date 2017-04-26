@@ -3,7 +3,6 @@ import matplotlib as mpl
 mpl.use('Agg')
 import pylab as pl
 
-from functions import get_xy, get_target_ids
 
 
 def plot_network_single_cell_targets(g, i, save_path,
@@ -15,9 +14,14 @@ def plot_network_single_cell_targets(g, i, save_path,
     
     ax = fig.add_subplot(111)
 
-    xs, ys = get_xy(g)
+    xy = g.vertex_properties["xy"]
+    xs = [xy[v][0] for v in g.vertices()]
+    ys = [xy[v][1] for v in g.vertices()]
 
-    target_ids = get_target_ids(g, i)
+    source = g.vertex(i)
+    target_ids = []
+    for e in source.out_edges():
+        target_ids.append(int(e.target()))
 
     target_xs = [xs[k] for k in target_ids]
     target_ys = [ys[k] for k in target_ids]
@@ -41,3 +45,8 @@ def plot_network_single_cell_targets(g, i, save_path,
     pl.savefig(save_path, dpi=300,  bbox_inches='tight')
 
 
+
+import graph_tool as gt
+g = gt.load_graph('../data/N1000_w126_manual.gt')
+plot_network_single_cell_targets(g, 0, '../img/new.png',
+                                     color = '#1f78b4')
