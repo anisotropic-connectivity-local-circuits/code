@@ -5,7 +5,7 @@ import random
 
 from functions import get_dist_matrix
 
-def rewire(g, rew_frac=1., eps_f=0.01):
+def rewire(g, rew_frac=1., eps_f=0.05):
     '''
     Rewire a given graph while preserving the 
     distance-dependent connectivity profile
@@ -17,7 +17,7 @@ def rewire(g, rew_frac=1., eps_f=0.01):
     '''
 
     ed_l = g.graph_properties["ed_l"]
-    eps = ed_l * eps_f
+    eps = (ed_l * eps_f)/2.
 
     h = gt.Graph(g)
     h.clear_edges()
