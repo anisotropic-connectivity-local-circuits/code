@@ -52,7 +52,7 @@ def rewire(g, rew_frac=1., eps_f=0.05):
                 np.logical_and((d-eps) <= D[int(v)],
                                D[int(v)] <= (d+eps)))[0]
 
-            rew_stat[(int(v), int(out_e.target()))]= len(rew_opts)
+            rew_stat[(int(v), int(out_e.target()))] = len(rew_opts)
 
             new_target = random.choice(rew_opts)
 
@@ -80,7 +80,8 @@ def rewire(g, rew_frac=1., eps_f=0.05):
     
 
          
-    print "Failed to rewire %d edges" %(len(fail_edges))
+    print 'Failed to rewire {:d} out of {:d} edges'.format(
+        len(fail_edges), int(g.num_edges()))
 
     statistics = {"rew_stat":rew_stat, "fail_edges":fail_edges}
 
