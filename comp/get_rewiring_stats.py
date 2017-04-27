@@ -12,7 +12,8 @@ for gpath in sys.argv[1:-1]:
     g = gt.load_graph(gpath)
     h, stat = rewire(g, rew_frac, eps_f)
     spath = "/home/lab/data/"+label+"-"+gid
-    with open(spath+".p", "wb") as pfile:
+    h.save(spath+".gt")
+    with open(spath+"_stat.p", "wb") as pfile:
         pickle.dump(stat,pfile)
 
 
