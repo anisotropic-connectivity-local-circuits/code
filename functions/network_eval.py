@@ -72,3 +72,31 @@ def get_dist_matrix(g):
     distances = (s - 2*r)**0.5
 
     return distances
+
+
+def get_adjacency_matrix(g):
+    '''
+                  presynaptic 
+               -----------------
+    post-     |                 |
+    synaptic  |                 |     
+              |                 |    
+
+    '''
+
+    N = g.num_vertices()
+    A = np.zeros((N,N))
+
+    for v in g.vertices():
+        for e in v.out_edges():
+            A[int(e.target())][int(v)] = 1
+
+    return A
+
+
+def get_dists_of_connected_pairs(g):
+
+    D = get_dist_matrix(g)
+    A = get_adjacency_matrix(g)
+    
+    return D[np.where(A==1)]

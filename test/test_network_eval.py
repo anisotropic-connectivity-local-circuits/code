@@ -84,6 +84,12 @@ class Test_get_dist_matrix(unittest.TestCase):
         D = get_dist_matrix(self.g)
         np.testing.assert_array_equal(D,D.transpose())
 
+
+class Test_get_dist_matrix(unittest.TestCase):
+distances
+
+class Test_get_adjacency_matrix(unittest.TestCase):
+    
         
 if __name__ == '__main__':
     unittest.main()
