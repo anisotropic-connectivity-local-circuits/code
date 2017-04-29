@@ -1,1 +1,8 @@
+*~
+__pycache__/
+*.py[cod]
+*$py.class
+.csync*
+.owncloud*
+.smt
 *.sh
