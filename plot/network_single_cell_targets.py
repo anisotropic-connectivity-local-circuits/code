@@ -47,6 +47,6 @@ def plot_network_single_cell_targets(g, i, save_path,
 
 
 import graph_tool as gt
-g = gt.load_graph('../data/N1000_w126_manual.gt')
-plot_network_single_cell_targets(g, 0, '../img/new.png',
+g = gt.load_graph('../data/N1000_w126_manual-rew.gt')
+plot_network_single_cell_targets(g, 0, '../img/new2.png',
                                      color = '#1f78b4')
