@@ -3,7 +3,7 @@ import graph_tool as gt
 import numpy as np
 import random
 
-from functions import get_dist_matrix
+from network_eval import get_dist_matrix
 
 def rewire(g, rew_frac=1., eps_f=0.05):
     '''
