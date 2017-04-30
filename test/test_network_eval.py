@@ -1,18 +1,18 @@
 
 import unittest
-
 import numpy as np
-
 import graph_tool as gt
 
 # get tested
 from comp.functions import ( eval_connectivity,
                              get_xy,
                              get_target_ids,
-                             get_dist_matrix )
+                             get_dist_matrix,
+                             get_adjacency_matrix,
+                             get_dists_of_connected_pairs )
 
 # functions assisting in testing
-from functions import ( generate_aniso_network )
+from comp.functions import ( generate_aniso_network )
 
 
 class Test_eval_connectivity(unittest.TestCase):
@@ -85,10 +85,38 @@ class Test_get_dist_matrix(unittest.TestCase):
         np.testing.assert_array_equal(D,D.transpose())
 
 
-class Test_get_dist_matrix(unittest.TestCase):
-distances
+# class Test_get_adjacency_matrix(unittest.TestCase):
 
-class Test_get_adjacency_matrix(unittest.TestCase):
+#     def test_dist_matrix_symmetric(self):
+#         D = get_dist_matrix(self.g)
+#         np.testing.assert_array_equal(D,D.transpose())
+
+
+class Test_get_dists_of_connected_pairs(unittest.TestCase):
+
+    def _construct_graph(self):
+        g = gt.Graph()
+        positions = [[0.,0.],[1.,1.]]
+        xy = g.new_vertex_property("vector<double>")
+        for k in range(len(positions)):
+            g.add_vertex()
+            xy[g.vertex(k)] = list(positions[k])
+        g.vertex_properties["xy"] = xy
+        return g
+    
+    def test_unconnected_graph_no_connected_pairs(self):
+        g = self._construct_graph()
+        D = get_dists_of_connected_pairs(g)
+        self.assertEqual(len(D),0)
+
+    def test_get_correct_distance(self):
+        g = self._construct_graph()
+        g.add_edge(0,1)
+        D = get_dists_of_connected_pairs(g)
+        self.assertEqual(len(D),1)
+        self.assertEqual(D[0], np.sqrt(2))
+
+
     
         
 if __name__ == '__main__':
