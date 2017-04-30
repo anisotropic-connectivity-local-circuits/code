@@ -8,7 +8,7 @@ import graph_tool.topology
 # get tested
 from functions import ( rewire )
 
-# functions assisting in testin
+# functions assisting in testing
 from functions import ( generate_aniso_network )
 
 
