@@ -100,3 +100,22 @@ def get_dists_of_connected_pairs(g):
     A = get_adjacency_matrix(g)
     
     return D[np.where(A==1)]
+
+
+def get_ddcp(g, bins):
+    '''
+    get distance dependent connectivity profile
+    --------------------------------------------------
+    g:           input graph
+    bins:        int or list, bins for profile
+    '''
+
+    D = get_dist_matrix(g)
+    d_cp = D[np.where(get_adjacency_matrix(g)==1)]
+
+    d_frq, bins = np.histogram(D.flatten(), bins)
+    d_cp_frq, bins = np.histogram(d_cp, bins)
+
+    centers = (bins[:-1]+bins[1:])/2.
+
+    return centers, d_cp_frq/d_frq.astype(np.float)
