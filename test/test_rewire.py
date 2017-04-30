@@ -6,10 +6,10 @@ import graph_tool as gt
 import graph_tool.topology
 
 # get tested
-from functions import ( rewire )
+from comp.functions import ( rewire )
 
 # functions assisting in testing
-from functions import ( generate_aniso_network )
+from comp.functions import ( generate_aniso_network )
 
 
         

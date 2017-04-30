@@ -8,12 +8,12 @@ import graph_tool.stats
 import graph_tool.topology
 
 # get tested
-from functions import ( generate_aniso_network,
-                        rotate,
-                        find_axon_targets )
+from comp.functions import ( generate_aniso_network,
+                             rotate,
+                             find_axon_targets )
 
 # functions assisting in testing
-from functions import (eval_connectivity)
+from comp.functions import ( eval_connectivity )
 
 
 class Test_rotate(unittest.TestCase):

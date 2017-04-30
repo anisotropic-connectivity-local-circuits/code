@@ -6,7 +6,8 @@ import numpy as np
 import graph_tool as gt
 import graph_tool.stats 
 
-from functions import distribute_neurons_randomly, connect_graph
+from comp.functions import ( distribute_neurons_randomly,
+                             connect_graph )
 
 
 class Test_distribute_neurons_randomly(unittest.TestCase):

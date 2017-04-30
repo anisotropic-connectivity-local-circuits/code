@@ -6,13 +6,13 @@ import graph_tool.stats
 import graph_tool.topology
 
 # get tested
-from functions import ( connect_dist_network,
-                        generate_dist_network )
+from comp.functions import ( connect_dist_network,
+                             generate_dist_network )
 
 # functions assisting in testing
-from functions import ( distribute_neurons_randomly,
-                        Aniso_netw_dist_profile,
-                        eval_connectivity )
+from comp.functions import ( distribute_neurons_randomly,
+                             Aniso_netw_dist_profile,
+                             eval_connectivity )
 
 
 class Test_connect_dist_network(unittest.TestCase):

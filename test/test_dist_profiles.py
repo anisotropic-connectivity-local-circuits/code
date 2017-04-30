@@ -4,7 +4,7 @@ import numpy as np
 import graph_tool as gt
 
 # get tested
-from functions import ( Aniso_netw_dist_profile )
+from comp.functions import ( Aniso_netw_dist_profile )
 
 
 class Test_Aniso_netw_dist_profile(unittest.TestCase):

@@ -6,10 +6,10 @@ import numpy as np
 import graph_tool as gt
 
 # get tested
-from functions import ( eval_connectivity,
-                        get_xy,
-                        get_target_ids,
-                        get_dist_matrix )
+from comp.functions import ( eval_connectivity,
+                             get_xy,
+                             get_target_ids,
+                             get_dist_matrix )
 
 # functions assisting in testing
 from functions import ( generate_aniso_network )
