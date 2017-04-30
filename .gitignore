@@ -7,3 +7,4 @@ __pycache__/
 .csync*
 .owncloud*
 .smt
+!run_tests.sh
