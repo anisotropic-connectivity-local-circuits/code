@@ -32,3 +32,23 @@ class Aniso_netw_dist_profile(object):
 
 
         
+class Tuned_netw_dist_profile(object):
+    '''
+    Curve from Perin 2011
+    '''
+
+    def __init__(self):
+        self.a = -1.4186123229540666E-03
+        self.b = 2.7630272296832398E-03
+        self.c = -9.4484523305731971E-01
+        self.offset = 2.3078566917566815E-01
+
+        
+    def ddcp(self,x):
+        if x==0.:
+            return 0.230785669176
+        else:
+            return  self.a/(self.b+pow(x,self.c)) + self.offset
+
+    def C(self,x):
+        return np.tan(self.ddcp(x)*np.pi)*x
