@@ -1,7 +1,7 @@
 
-from params.generate_tuned_networks_params import *
+from params.generate_dist_networks_params import *
 
-label = "tuned-an-netw_N{:d}_ed-l{:d}_XY51".format(N,ed_l)
+label = "dist-an-netw_N{:d}_w{:.1f}_ed-l{:d}_8CY2".format(N,w,ed_l)
 
 if __name__ == "__main__":
     print label
