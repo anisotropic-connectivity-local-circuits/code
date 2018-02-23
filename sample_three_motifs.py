@@ -8,7 +8,7 @@ from sample_three_motifs_label import label
 import pickle, os, sys
 
 data = {}
-for gpath in sys.argv[1:]:
+for gpath in sys.argv[1:-1]:
     g = gt.load_graph(gpath)
     motif_counts = sample_three_motifs(g, sample_size)
     gid = os.path.splitext(os.path.basename(gpath))[0][-4:]
