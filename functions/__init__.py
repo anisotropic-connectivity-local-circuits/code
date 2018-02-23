@@ -9,3 +9,5 @@ from rewire import *
 from dist_profiles import *
 
 
+from three_motifs import *
+
