@@ -5,7 +5,7 @@ import graph_tool.stats
 import graph_tool.topology
 
 import numpy as np
-
+import time
 
 def generate_three_motif_list(with_empty):
     '''
@@ -199,6 +199,7 @@ def sample_three_motifs(g, sampling_size):
     
     N = g.num_vertices()
 
+    # a = time.time()
     for k in range(sampling_size):
 
         vertex_ids = np.array([])
@@ -237,10 +238,10 @@ def sample_three_motifs(g, sampling_size):
 
         g.set_vertex_filter(None)
 
+    
     # b = time.time()
-
-    # print "Finished at ", datetime.datetime.now(), ","
-    # print "Runtime: ", (b-a)/sampling_size
+    # print "Fulltime: ", b-a
+    # print "Runtime: ", (b-a)/sampling_size, " per motif"
 
     return list(motif_counts)
 
