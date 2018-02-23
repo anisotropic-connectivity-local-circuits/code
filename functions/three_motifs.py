@@ -16,46 +16,60 @@ def generate_three_motif_list(with_empty):
 
     if with_empty:
 
-        #      o
-        #   ↙↗ ↘↖  
-        #  o   ⇄  o
+        # [1]  o
+        #      
+        #  o      o
         g = gt.Graph()
         g.add_vertex(3)
         graph_list.append(g)
 
-    #      o
-    #   ↙↗ ↘↖  
+    # [2]  o
+    #  
+    #  o   →  o
+    g = gt.Graph()
+    g.add_vertex(3)
+    g.add_edge(g.vertex(0),g.vertex(1))
+    graph_list.append(g)
+
+    # [3]  o
+    #   
     #  o   ⇄  o
     g = gt.Graph()
     g.add_vertex(3)
-    g.add_edge(g.vertex(0),g.vertex(1))
-    graph_list.append(g)
-
-    g = gt.Graph()
-    g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(0))
     g.add_edge(g.vertex(0),g.vertex(2))
     graph_list.append(g)
 
-
+    # [4]  o
+    #   ↙   ↘  
+    #  o      o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(0))
     g.add_edge(g.vertex(2),g.vertex(1))
     graph_list.append(g)
 
+    # [5]  o
+    #    ↗  ↖  
+    #  o       o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(0),g.vertex(2))
     g.add_edge(g.vertex(1),g.vertex(2))
     graph_list.append(g)
 
+    # [6]   o
+    #        ↖  
+    #  o   →   o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(0),g.vertex(1))
     g.add_edge(g.vertex(1),g.vertex(2))
     graph_list.append(g)
 
+    # [7]  o
+    #   ↗ ↘↖  
+    #  o      o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(0),g.vertex(2))
@@ -63,6 +77,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(2),g.vertex(1))
     graph_list.append(g)
 
+    # [8]  o
+    #   ↙  ↘↖  
+    #  o      o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(0))
@@ -70,6 +87,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(1),g.vertex(2))
     graph_list.append(g)
 
+    # [9]  o
+    #   ↙↗ ↘↖  
+    #  o      o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(1),g.vertex(2))
@@ -78,6 +98,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(0),g.vertex(2))
     graph_list.append(g)
 
+    # [10] o
+    #   ↙   ↘  
+    #  o  →  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(0))
@@ -85,6 +108,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(0),g.vertex(1))
     graph_list.append(g)
 
+    # [11] o
+    #   ↙   ↖  
+    #  o   →  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(0),g.vertex(1))
@@ -92,6 +118,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(2),g.vertex(0))
     graph_list.append(g)
 
+    # [12] o
+    #   ↗ ↘↖  
+    #  o   →  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(0),g.vertex(1))
@@ -100,6 +129,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(0),g.vertex(2))
     graph_list.append(g)
 
+    # [13] o
+    #   ↙ ↘↖  
+    #  o   →  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(0))
@@ -108,6 +140,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(2),g.vertex(1))
     graph_list.append(g)
 
+    # [14] o
+    #   ↙ ↘↖  
+    #  o   ←  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(0))
@@ -116,6 +151,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(2),g.vertex(1))
     graph_list.append(g)
 
+    # [15] o
+    #   ↙↗ ↘↖  
+    #  o   →  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(2),g.vertex(1))
@@ -125,9 +163,9 @@ def generate_three_motif_list(with_empty):
     g.add_edge(g.vertex(0),g.vertex(1))
     graph_list.append(g)
 
-    # g = gt.Graph()
-    # g.add_vertex(3)
-    # g.add_vertex(3)
+    # [16] o
+    #   ↙↗ ↘↖  
+    #  o   ⇄  o
     g = gt.Graph()
     g.add_vertex(3)
     g.add_edge(g.vertex(0),g.vertex(1))

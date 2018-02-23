@@ -11,16 +11,7 @@ from comp.functions import ( sample_three_motifs,
 
 class Test_sample_three_motifs(unittest.TestCase):
 
-    # g = gt.Graph()
-    # g.add_vertex(5)
-    # g.add_edge(g.vertex(0), g.vertex(1))
-    # g.add_edge(g.vertex(1), g.vertex(2))
-    # g.add_edge(g.vertex(2), g.vertex(0))
-
-    # # print(gt.topology.isomorphism(g, g))
-    # x = sample_three_motifs(g, 20)
-    # # print( x )
-
+    
     def test_single_matches_from_motif_list(self):
         three_motif_list = generate_three_motif_list(with_empty=True)
     
@@ -29,6 +20,26 @@ class Test_sample_three_motifs(unittest.TestCase):
             self.assertEqual(int(np.where(np.array(matches)==1)[0]),
                              k)
 
+    def test_empty_graph(self):
+        g = gt.Graph()
+        g.add_vertex(100)
+
+        matches = sample_three_motifs(g,50)
+        self.assertEqual(matches[0],50)
+        
+
+    def test_fully_connected_graph(self):
+        g = gt.Graph()
+        n = 100
+        g.add_vertex(n)
+        for i in range(n):
+            for j in range(n):
+                if i!=j:
+                    g.add_edge(g.vertex(i), g.vertex(j))
+
+        matches = sample_three_motifs(g,50)
+        self.assertEqual(matches[-1],50)
+        
 
 
 if __name__ == '__main__':
