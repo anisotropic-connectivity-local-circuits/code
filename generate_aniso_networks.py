@@ -9,9 +9,8 @@ np.random.seed(seed)
 
 w_f = lambda x: w
 
-k = 0
 for i in range(n_graphs):
     spath = "/home/lab/comp/data/" + label \
-            +"-"+str(k)+".gt"
+            +"-"+str(i)+".gt"
     generate_aniso_network(N, w_f, ed_l, spath)
                            
