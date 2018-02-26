@@ -3,7 +3,10 @@ from functions import generate_aniso_network
 from params.generate_aniso_networks_params import *
 from generate_aniso_networks_label import label
 
+import numpy as np
 import uuid
+
+np.random.seed(seed)
 
 w_f = lambda x: w
 
