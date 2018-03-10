@@ -5,7 +5,10 @@ from get_rewiring_stats_label import label
 
 import graph_tool as gt
 import sys, uuid, os, pickle
+import numpy as np
 
+# reproducible seed for different param combinations
+np.random.seed(int(seed*(rew_frac+eps_f)))
 
 for gpath in sys.argv[1:-1]:
     gid = os.path.splitext(gpath)[0][-2:]
