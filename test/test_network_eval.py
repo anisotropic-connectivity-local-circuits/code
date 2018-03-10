@@ -84,14 +84,20 @@ class Test_get_dist_matrix(unittest.TestCase):
         D = get_dist_matrix(self.g)
         np.testing.assert_array_equal(D,D.transpose())
 
-
-# class Test_get_adjacency_matrix(unittest.TestCase):
-
-#     def test_dist_matrix_symmetric(self):
-#         D = get_dist_matrix(self.g)
-#         np.testing.assert_array_equal(D,D.transpose())
+    def test_dist_matrix_diagonal_equals_zero(self):
+        D = get_dist_matrix(self.g)
+        np.testing.assert_array_equal(np.diag(D),
+                                      np.array([0.,0.]))
 
 
+
+class Test_get_adjacency_matrix(unittest.TestCase):
+
+    def test_ajacency_matrix_symmetric(self):
+        raise NotImplementedError
+
+
+    
 class Test_get_dists_of_connected_pairs(unittest.TestCase):
 
     def _construct_graph(self):
