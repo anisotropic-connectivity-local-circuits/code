@@ -11,6 +11,6 @@ w_f = lambda x: w
 
 for i in range(n_graphs):
     spath = "/home/lab/comp/data/" + label \
-            +"-"+str(i)+".gt"
+            +"-"+'%.2d' %i+".gt"
     generate_aniso_network(N, w_f, ed_l, spath)
                            
