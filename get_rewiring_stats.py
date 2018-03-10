@@ -8,7 +8,7 @@ import sys, uuid, os, pickle
 
 
 for gpath in sys.argv[1:-1]:
-    gid = os.path.splitext(gpath)[0][-4:]
+    gid = os.path.splitext(gpath)[0][-2:]
     g = gt.load_graph(gpath)
     h, stat = rewire(g, rew_frac, eps_f)
     spath = "/home/lab/comp/data/"+label+"-"+gid
