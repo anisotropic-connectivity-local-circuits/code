@@ -25,10 +25,10 @@ for gpath in sys.argv[1:-1]:
     h9, stat = rewire(h8, rew_frac, eps_f)
     h10, stat = rewire(h9, rew_frac, eps_f)
     
-    spath = "/home/lab/comp/data/"+label+"_r2_"+"-"+gid
+    spath = "/home/lab/comp/data/"+label+"_r2"+"-"+gid
     h2.save(spath+".gt")
-    spath = "/home/lab/comp/data/"+label+"_r5_"+"-"+gid
+    spath = "/home/lab/comp/data/"+label+"_r5"+"-"+gid
     h5.save(spath+".gt")
-    spath = "/home/lab/comp/data/"+label+"_r10_"+"-"+gid
+    spath = "/home/lab/comp/data/"+label+"_r10"+"-"+gid
     h10.save(spath+".gt")
                            
