@@ -1,7 +1,6 @@
 
 import graph_tool as gt
 import numpy as np
-import random
 
 from network_eval import get_dist_matrix
 
@@ -54,7 +53,7 @@ def rewire(g, rew_frac=1., eps_f=0.05):
 
             rew_stat[(int(v), int(out_e.target()))] = len(rew_opts)
 
-            new_target = random.choice(rew_opts)
+            new_target = np.random.choice(rew_opts)
 
             target_valid = True
             rew_tries = 0
@@ -73,7 +72,7 @@ def rewire(g, rew_frac=1., eps_f=0.05):
                     target_valid = False
                     break
 
-                new_target = random.choice(rew_opts)
+                new_target = np.random.choice(rew_opts)
 
             if target_valid:
                 h.add_edge(h.vertex(int(v)),h.vertex(new_target))
