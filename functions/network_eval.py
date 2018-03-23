@@ -110,3 +110,30 @@ def get_ddcp(g, bins):
     centers = (bins[:-1]+bins[1:])/2.
 
     return centers, d_cp_frq/d_frq.astype(np.float)
+
+
+def get_2neuron_p(g):
+    '''
+    get the probabilities for the three connection
+    types (unconnected, single connection, reciprocal)
+    for a random neuron pair in the network
+    --------------------------------------------------
+    arguments
+        g:           input graph
+
+    returns
+        uc  -  probability for unconnected
+        sc  -  probability for single connection
+        bc  -  probability for reciprocal connectio
+    '''
+    N = g.num_vertices()
+    A = get_adjacency_matrix(g)
+    U = (A+A.T)[np.triu_indices(N,1)]
+
+    uc = len(U[np.where(U==0)])
+    sc = len(U[np.where(U==1)])
+    bc = len(U[np.where(U==2)])
+
+    T = float(uc+sc+bc)
+
+    return uc/T, sc/T, bc/T    

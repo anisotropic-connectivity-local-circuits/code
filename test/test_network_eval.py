@@ -9,7 +9,8 @@ from comp.functions import ( eval_connectivity,
                              get_target_ids,
                              get_dist_matrix,
                              get_adjacency_matrix,
-                             get_dists_of_connected_pairs )
+                             get_dists_of_connected_pairs,
+                             get_2neuron_p )
 
 # functions assisting in testing
 from comp.functions import ( generate_aniso_network )
@@ -123,7 +124,33 @@ class Test_get_dists_of_connected_pairs(unittest.TestCase):
         self.assertEqual(D[0], np.sqrt(2))
 
 
-    
+class Test_get_2neuron_p(unittest.TestCase):
+
+    def test_unconnected_graph(self):
+        g = gt.Graph()
+        g.add_vertex(5)
+        self.assertEqual(get_2neuron_p(g), (1.,0.,0.))
+
+    def test_ring_graph(self):
+        g = gt.Graph()
+        g.add_vertex(3)
+        g.add_edge(g.vertex(0), g.vertex(1))
+        g.add_edge(g.vertex(1), g.vertex(2))
+        g.add_edge(g.vertex(2), g.vertex(0))
+        self.assertEqual(get_2neuron_p(g), (0.,1.,0.))
+
+    def test_all_to_all_graph(self):
+        g = gt.Graph()
+        g.add_vertex(3)
+        g.add_edge(g.vertex(0), g.vertex(1))
+        g.add_edge(g.vertex(1), g.vertex(2))
+        g.add_edge(g.vertex(2), g.vertex(0))
+        g.add_edge(g.vertex(0), g.vertex(2))
+        g.add_edge(g.vertex(1), g.vertex(0))
+        g.add_edge(g.vertex(2), g.vertex(1))
+        self.assertEqual(get_2neuron_p(g), (0.,0.,1.))
+
+            
         
 if __name__ == '__main__':
     unittest.main()
