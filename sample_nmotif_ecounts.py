@@ -17,7 +17,7 @@ for gpath in sys.argv[1:-1]:
     ecounts = get_nmotif_ecounts(g, motif_size, sample_size)
     gid = os.path.splitext(os.path.basename(gpath))[0][-2:]
 
-    data[gid]=motif_counts
+    data[gid]=ecounts
 
     fpath = "data/nmotif_ecounts_" \
             + "{:s}_n{:d}_S{:d}.p".format(graph_type, motif_size,
