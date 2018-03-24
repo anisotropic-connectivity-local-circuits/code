@@ -1,6 +1,7 @@
 
 import numpy as np
 import graph_tool as gt
+from collections import defaultdict
 from scipy.spatial import distance_matrix as scipy_distance_matrix
 
 
@@ -137,3 +138,44 @@ def get_2neuron_p(g):
     T = float(uc+sc+bc)
 
     return uc/T, sc/T, bc/T    
+
+
+
+def get_nmotif_ecounts(g, motif_size, sample_size):
+    '''
+    sample the number of edges in a random motif of size n
+    --------------------------------------------------
+    arguments
+        g           :  input graph
+        motif_size  :  size n of motifs (no. edges) to sample from
+        sample_size :  total number of samples
+
+    returns
+        counter     :  counts of sampled motifs for given
+                       number of edges
+    '''
+
+    counter = defaultdict(int)
+    
+    N = g.num_vertices()
+
+    for k in range(sample_size):
+
+        vertex_ids = np.array([])
+        while len(np.unique(vertex_ids)) < motif_size:
+            vertex_ids = np.random.randint(0, N, motif_size)
+
+        is_part_of_motif = g.new_vertex_property("bool")
+
+        for v_id in vertex_ids:
+            is_part_of_motif[g.vertex(v_id)] = True
+
+        g.set_vertex_filter(is_part_of_motif)
+
+        ne = g.num_edges()
+        
+        counter[ne]+=1
+
+        g.set_vertex_filter(None)
+
+    return counter

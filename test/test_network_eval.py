@@ -1,5 +1,5 @@
 
-import unittest
+import unittest, itertools
 import numpy as np
 import graph_tool as gt
 
@@ -10,7 +10,8 @@ from comp.functions import ( eval_connectivity,
                              get_dist_matrix,
                              get_adjacency_matrix,
                              get_dists_of_connected_pairs,
-                             get_2neuron_p )
+                             get_2neuron_p,
+                             get_nmotif_ecounts )
 
 # functions assisting in testing
 from comp.functions import ( generate_aniso_network )
@@ -150,7 +151,30 @@ class Test_get_2neuron_p(unittest.TestCase):
         g.add_edge(g.vertex(2), g.vertex(1))
         self.assertEqual(get_2neuron_p(g), (0.,0.,1.))
 
-            
+
+class Test_get_nmotif_ecounts(unittest.TestCase):
+
+    def test_empty_graph(self):
+        g = gt.Graph()
+        g.add_vertex(5)
+        self.assertEqual(get_nmotif_ecounts(g,3,20), {0: 20})
+
+    def test_all_to_all_graph(self):
+        g = gt.Graph()
+        g.add_vertex(30)
+        for x,y in itertools.product(range(30), range(30)):
+            if x != y:
+                g.add_edge(g.vertex(x), g.vertex(y))
+        self.assertEqual(get_nmotif_ecounts(g,8,15), {8*7: 15})
+
+    def test_ring_graph(self):
+        g = gt.Graph()
+        g.add_vertex(3)
+        g.add_edge(g.vertex(0), g.vertex(1))
+        g.add_edge(g.vertex(1), g.vertex(2))
+        g.add_edge(g.vertex(2), g.vertex(0))
+        self.assertEqual(get_nmotif_ecounts(g,3,10), {3 : 10})
+        
         
 if __name__ == '__main__':
     unittest.main()
