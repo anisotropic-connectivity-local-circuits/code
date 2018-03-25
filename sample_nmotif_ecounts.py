@@ -20,8 +20,8 @@ for gpath in sys.argv[1:-1]:
     data[gid]=ecounts
 
     fpath = "data/nmotif_ecounts_" \
-            + "{:s}_n{:d}_S{:d}.p".format(graph_type, motif_size,
-                                          sample_size)
+            + "{:s}_n{:d}_S{:d}K.p".format(graph_type, motif_size,
+                                          sample_size/1000)
 
     with open(fpath, "wb") as pfile:
         pickle.dump(data, pfile)
