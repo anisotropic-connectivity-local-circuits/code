@@ -113,6 +113,31 @@ def get_ddcp(g, bins):
     return centers, d_cp_frq/d_frq.astype(np.float)
 
 
+def get_2neuron_counts(g):
+    '''
+    get the counts for the three connection
+    types (unconnected, single connection, reciprocal)
+    for every unordered pair in the network
+    --------------------------------------------------
+    arguments
+        g:           input graph
+
+    returns
+        uc  -  unconnected count
+        sc  -  single connection count
+        rc  -  reciprocal connection count
+    '''
+    N = g.num_vertices()
+    A = get_adjacency_matrix(g)
+    U = (A+A.T)[np.triu_indices(N,1)]
+
+    uc = len(U[np.where(U==0)])
+    sc = len(U[np.where(U==1)])
+    rc = len(U[np.where(U==2)])
+
+    return uc, sc, rc    
+
+
 def get_2neuron_p(g):
     '''
     get the probabilities for the three connection
@@ -123,21 +148,16 @@ def get_2neuron_p(g):
         g:           input graph
 
     returns
-        uc  -  probability for unconnected
-        sc  -  probability for single connection
-        bc  -  probability for reciprocal connectio
+        up  -  probability for unconnected
+        sp  -  probability for single connection
+        rp  -  probability for reciprocal connection
     '''
-    N = g.num_vertices()
-    A = get_adjacency_matrix(g)
-    U = (A+A.T)[np.triu_indices(N,1)]
 
-    uc = len(U[np.where(U==0)])
-    sc = len(U[np.where(U==1)])
-    bc = len(U[np.where(U==2)])
+    uc, sc, rc = get_2neuron_counts(g)
+    
+    T = float(uc+sc+rc)
 
-    T = float(uc+sc+bc)
-
-    return uc/T, sc/T, bc/T    
+    return uc/T, sc/T, rc/T
 
 
 
