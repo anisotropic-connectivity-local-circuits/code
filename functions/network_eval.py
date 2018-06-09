@@ -102,10 +102,22 @@ def get_ddcp(g, bins):
     bins:        int or list, bins for profile
     '''
 
+    N = g.num_vertices()
     D = get_dist_matrix(g)
-    d_cp = D[np.where(get_adjacency_matrix(g)==1)]
 
-    d_frq, bins = np.histogram(D.flatten(), bins)
+    # distances of non-identical pairs
+    dists = np.concatenate((D[np.triu_indices(N,1)],
+                            D[np.tril_indices(N,-1)]))
+
+    # adjacency of non-identical pairs
+    A = get_adjacency_matrix(g)
+    adj = np.concatenate((A[np.triu_indices(N,1)],
+                          A[np.tril_indices(N,-1)]))
+
+    # connection where adj=1
+    d_cp = dists[np.where(adj==1)]
+
+    d_frq, bins = np.histogram(dists, bins)
     d_cp_frq, bins = np.histogram(d_cp, bins)
 
     centers = (bins[:-1]+bins[1:])/2.
