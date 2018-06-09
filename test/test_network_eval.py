@@ -9,12 +9,15 @@ from comp.functions import ( eval_connectivity,
                              get_target_ids,
                              get_dist_matrix,
                              get_adjacency_matrix,
+                             get_ddcp,
+                             get_dd_recip_p,
                              get_dists_of_connected_pairs,
                              get_2neuron_p,
                              get_nmotif_ecounts )
 
 # functions assisting in testing
-from comp.functions import ( generate_aniso_network )
+from comp.functions import ( generate_aniso_network,
+                             distribute_neurons_randomly)
 
 
 class Test_eval_connectivity(unittest.TestCase):
@@ -98,6 +101,32 @@ class Test_get_adjacency_matrix(unittest.TestCase):
     def test_ajacency_matrix_symmetric(self):
         raise NotImplementedError
 
+
+class Test_get_dd_recip_p(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        N = 500
+        g = gt.Graph()
+        g.add_vertex(N)
+        for i in range(N):
+            for j in range(N):
+                if not i==j:
+                    g.add_edge(g.vertex(i),g.vertex(j))
+
+        ed_l = 1
+        positions = distribute_neurons_randomly(N, ed_l)     
+        xy = g.new_vertex_property("vector<double>")
+        for k in range(N):
+            xy[g.vertex(k)] = list(positions[k])
+        g.vertex_properties["xy"] = xy
+        self.g = g
+
+    
+    def test_fully_connected_net_returns_constant_1_probability(self):
+        bins = np.linspace(0,1,num=10)
+        np.testing.assert_array_equal(get_dd_recip_p(self.g, bins)[1],
+                                      np.ones(len(bins)-1))
 
     
 class Test_get_dists_of_connected_pairs(unittest.TestCase):

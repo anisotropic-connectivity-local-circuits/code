@@ -113,6 +113,44 @@ def get_ddcp(g, bins):
     return centers, d_cp_frq/d_frq.astype(np.float)
 
 
+def get_dd_recip_p(g, bins):
+    '''
+    get distance dependent probabilities for reciprocal
+    conections
+    --------------------------------------------------
+    arguments
+        g:       input graph
+        bins:    int or list, bins for profile
+
+    returns
+        x:       pair distance
+        p(x):    estimated probability for a reciprocal
+                 connection for a pair of nodes with
+                 distance x                   
+    '''
+
+    N = g.num_vertices()
+    D = get_dist_matrix(g)
+    A = get_adjacency_matrix(g)
+    
+    # entries with in U with value 2 are recip. pairs
+    #        |   1 0 1 2 |
+    #        |     1 2 0 |
+    # U =    |       0 1 |
+    #        |         0 |
+    #        |           |
+    U = (A+A.T)[np.triu_indices(N,1)]
+    D_triu = D[np.triu_indices(N,1)]
+    d_rcp = D_triu[np.where(U==2)]
+
+    d_frq, bins = np.histogram(D_triu, bins)
+    d_rcp_frq, bins = np.histogram(d_rcp, bins)
+
+    centers = (bins[:-1]+bins[1:])/2.
+
+    return centers, d_rcp_frq/(d_frq.astype(np.float))
+
+
 def get_2neuron_counts(g):
     '''
     get the counts for the three connection
