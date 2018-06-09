@@ -124,6 +124,33 @@ class Test_get_adjacency_matrix(unittest.TestCase):
 
         np.testing.assert_array_equal(expected_A,
                                       get_adjacency_matrix(g))
+
+
+class Test_get_ddcp(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        N = 500
+        g = gt.Graph()
+        g.add_vertex(N)
+        for i in range(N):
+            for j in range(N):
+                if not i==j:
+                    g.add_edge(g.vertex(i),g.vertex(j))
+
+        ed_l = 1
+        positions = distribute_neurons_randomly(N, ed_l)     
+        xy = g.new_vertex_property("vector<double>")
+        for k in range(N):
+            xy[g.vertex(k)] = list(positions[k])
+        g.vertex_properties["xy"] = xy
+        self.g = g
+
+    
+    def test_fully_connected_net_returns_constant_1_probability(self):
+        bins = np.linspace(0,1,num=10)
+        np.testing.assert_array_equal(get_ddcp(self.g, bins)[1],
+                                      np.ones(len(bins)-1))
         
 
 
