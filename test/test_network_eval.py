@@ -98,8 +98,33 @@ class Test_get_dist_matrix(unittest.TestCase):
 
 class Test_get_adjacency_matrix(unittest.TestCase):
 
-    def test_ajacency_matrix_symmetric(self):
-        raise NotImplementedError
+    def test_empty_graph_has_zero_adjacency_matrix(self):
+        g, N = gt.Graph(), 10
+        g.add_vertex(N)
+        np.testing.assert_array_equal(np.zeros((N,N)),
+                                      get_adjacency_matrix(g))
+
+    def test_fully_connected_graph_has_1_adjacency_matrix(self):
+        g, N = gt.Graph(), 10
+        g.add_vertex(N)
+        for i,j in itertools.product(range(N), range(N)):
+            g.add_edge(i,j)
+        np.testing.assert_array_equal(np.ones((N,N)),
+                                      get_adjacency_matrix(g))
+
+    def test_specific_graph_for_adjacency_matrix(self):
+        g = gt.Graph()
+        g.add_vertex(4)
+        g.add_edge_list([(1,2), (2,3), (3,2), (0,3)])
+
+        expected_A = np.array([[0, 0, 0, 0],
+                               [0, 0, 0, 0],
+                               [0, 1, 0, 1],
+                               [1, 0, 1, 0]])
+
+        np.testing.assert_array_equal(expected_A,
+                                      get_adjacency_matrix(g))
+        
 
 
 class Test_get_dd_recip_p(unittest.TestCase):
