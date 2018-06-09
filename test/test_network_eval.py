@@ -134,10 +134,9 @@ class Test_get_dd_recip_p(unittest.TestCase):
         N = 500
         g = gt.Graph()
         g.add_vertex(N)
-        for i in range(N):
-            for j in range(N):
-                if not i==j:
-                    g.add_edge(g.vertex(i),g.vertex(j))
+        for i,j in itertools.product(range(N),range(N)):
+            if not i==j:
+                g.add_edge(g.vertex(i),g.vertex(j))
 
         ed_l = 1
         positions = distribute_neurons_randomly(N, ed_l)     
