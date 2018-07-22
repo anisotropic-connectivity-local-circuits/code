@@ -13,7 +13,8 @@ from comp.functions import ( eval_connectivity,
                              get_dd_recip_p,
                              get_dists_of_connected_pairs,
                              get_2neuron_p,
-                             get_nmotif_ecounts )
+                             get_nmotif_ecounts,
+                             get_common_neighbours )
 
 # functions assisting in testing
 from comp.functions import ( generate_aniso_network,
@@ -254,7 +255,54 @@ class Test_get_nmotif_ecounts(unittest.TestCase):
         g.add_edge(g.vertex(1), g.vertex(2))
         g.add_edge(g.vertex(2), g.vertex(0))
         self.assertEqual(get_nmotif_ecounts(g,3,10), {3 : 10})
+
+
+
+class Test_get_common_neighbours(unittest.TestCase):
+
+    def test_empty_graph(self):
+        g = gt.Graph()
+        g.add_vertex(5)
+        pairs, in_nb, out_nb = get_common_neighbours(g)
+        self.assertEqual(in_nb, [0.]*(5*4/2))
+        self.assertEqual(out_nb, [0.]*(5*4/2))
+
+    def test_all_to_all_graph(self):
+        g = gt.Graph()
+        N = 15
+        g.add_vertex(N)
+        for x,y in itertools.product(range(N), range(N)):
+            if x != y:
+                g.add_edge(g.vertex(x), g.vertex(y))
+    
+        pairs, in_nb, out_nb = get_common_neighbours(g)
+        self.assertEqual(in_nb, [N-2.]*(N*(N-1)/2))
+        self.assertEqual(out_nb, [N-2.]*(N*(N-1)/2))
+
+
+    def test_example_graph(self):
+        g = gt.Graph()
+        g.add_vertex(4)
+        g.add_edge_list([(1,2), (2,3), (3,2), (0,3), (2,1),
+                         (2,2), (1,1)])
+
+        expected_A = np.array([[0, 0, 0, 0],
+                               [0, 1, 1, 0],
+                               [0, 1, 1, 1],
+                               [1, 0, 1, 0]])
+
+        np.testing.assert_array_equal(expected_A,
+                                      get_adjacency_matrix(g))
+
+        expected_out_nb = [0., 1., 0., 2., 1., 1.]
+        expected_inn_nb = [0., 0., 0., 2., 1., 1.]
+
+        pairs, inn_nb, out_nb = get_common_neighbours(g)
         
+        self.assertEqual(expected_out_nb, out_nb)
+        self.assertEqual(expected_inn_nb, inn_nb)
+
+       
         
 if __name__ == '__main__':
     unittest.main()

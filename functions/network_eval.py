@@ -249,3 +249,35 @@ def get_nmotif_ecounts(g, motif_size, sample_size):
         g.set_vertex_filter(None)
 
     return counter
+
+
+def get_common_neighbours(g):
+    '''
+    get the number of common in- and out-neighbours for 
+    each pair of nodes in a graph
+    --------------------------------------------------
+    arguments
+        g              :  input graph
+
+    returns
+        pairs          :  distinct unordered node pairs
+        inn-neighbours :  number of common inputs of neuron
+                          pair at same position in pairs
+        out-neighbours :  number of common target of neuron
+                          pair at same position in pairs
+    '''
+
+    N = g.num_vertices()
+    A = get_adjacency_matrix(g)
+    
+    pairs, inn_neighbours, out_neighbours = [], [], []
+    
+    for i in range(N):
+        for j in range(i+1,N):
+            pairs.append((i,j))
+            inn_neighbours.append(np.dot(A[i,:],A[j,:]))
+            out_neighbours.append(np.dot(A[:,i],A[:,j]))
+
+    return pairs, inn_neighbours, out_neighbours
+    
+    
