@@ -263,7 +263,8 @@ class Test_get_common_neighbours(unittest.TestCase):
     def test_empty_graph(self):
         g = gt.Graph()
         g.add_vertex(5)
-        pairs, in_nb, out_nb = get_common_neighbours(g)
+        pairs, cn, in_nb, out_nb = get_common_neighbours(g)
+        self.assertEqual(cn, [0]*(5*4/2))
         self.assertEqual(in_nb, [0.]*(5*4/2))
         self.assertEqual(out_nb, [0.]*(5*4/2))
 
@@ -275,12 +276,16 @@ class Test_get_common_neighbours(unittest.TestCase):
             if x != y:
                 g.add_edge(g.vertex(x), g.vertex(y))
     
-        pairs, in_nb, out_nb = get_common_neighbours(g)
+        pairs, cn, in_nb, out_nb = get_common_neighbours(g)
+        self.assertEqual(cn, [2]*(N*(N-1)/2))
         self.assertEqual(in_nb, [N-2.]*(N*(N-1)/2))
         self.assertEqual(out_nb, [N-2.]*(N*(N-1)/2))
 
 
     def test_example_graph(self):
+        # algorithm also counts self connections,
+        # but not a problem here as used used 
+        # graphs do not have self-loops
         g = gt.Graph()
         g.add_vertex(4)
         g.add_edge_list([(1,2), (2,3), (3,2), (0,3), (2,1),
@@ -294,11 +299,13 @@ class Test_get_common_neighbours(unittest.TestCase):
         np.testing.assert_array_equal(expected_A,
                                       get_adjacency_matrix(g))
 
+        expected_cn     = [0, 0, 1, 2, 0, 2]
         expected_out_nb = [0., 1., 0., 2., 1., 1.]
         expected_inn_nb = [0., 0., 0., 2., 1., 1.]
 
-        pairs, inn_nb, out_nb = get_common_neighbours(g)
-        
+        pairs, cn, inn_nb, out_nb = get_common_neighbours(g)
+
+        self.assertEqual(expected_cn, cn)
         self.assertEqual(expected_out_nb, out_nb)
         self.assertEqual(expected_inn_nb, inn_nb)
 

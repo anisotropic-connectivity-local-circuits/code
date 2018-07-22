@@ -261,6 +261,8 @@ def get_common_neighbours(g):
 
     returns
         pairs          :  distinct unordered node pairs
+        connections    :  tpye of pair connection (0=unconnected,
+                          1=single connection, 2=reciprocal)
         inn-neighbours :  number of common inputs of neuron
                           pair at same position in pairs
         out-neighbours :  number of common target of neuron
@@ -269,15 +271,18 @@ def get_common_neighbours(g):
 
     N = g.num_vertices()
     A = get_adjacency_matrix(g)
+    U = (A+A.T)
     
-    pairs, inn_neighbours, out_neighbours = [], [], []
+    pairs, connections = [], []
+    inn_neighbours, out_neighbours = [], []
     
     for i in range(N):
         for j in range(i+1,N):
             pairs.append((i,j))
+            connections.append(U[i][j])
             inn_neighbours.append(np.dot(A[i,:],A[j,:]))
             out_neighbours.append(np.dot(A[:,i],A[:,j]))
 
-    return pairs, inn_neighbours, out_neighbours
+    return pairs, connections, inn_neighbours, out_neighbours
     
     
