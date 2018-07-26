@@ -264,9 +264,9 @@ class Test_get_common_neighbours(unittest.TestCase):
         g = gt.Graph()
         g.add_vertex(5)
         pairs, cn, in_nb, out_nb = get_common_neighbours(g)
-        self.assertEqual(cn, [0]*(5*4/2))
-        self.assertEqual(in_nb, [0.]*(5*4/2))
-        self.assertEqual(out_nb, [0.]*(5*4/2))
+        np.testing.assert_array_equal(cn, [0]*(5*4/2))
+        np.testing.assert_array_equal(in_nb, [0.]*(5*4/2))
+        np.testing.assert_array_equal(out_nb, [0.]*(5*4/2))
 
     def test_all_to_all_graph(self):
         g = gt.Graph()
@@ -277,9 +277,9 @@ class Test_get_common_neighbours(unittest.TestCase):
                 g.add_edge(g.vertex(x), g.vertex(y))
     
         pairs, cn, in_nb, out_nb = get_common_neighbours(g)
-        self.assertEqual(cn, [2]*(N*(N-1)/2))
-        self.assertEqual(in_nb, [N-2.]*(N*(N-1)/2))
-        self.assertEqual(out_nb, [N-2.]*(N*(N-1)/2))
+        np.testing.assert_array_equal(cn, [2]*(N*(N-1)/2))
+        np.testing.assert_array_equal(in_nb, [N-2.]*(N*(N-1)/2))
+        np.testing.assert_array_equal(out_nb, [N-2.]*(N*(N-1)/2))
 
 
     def test_example_graph(self):
@@ -305,9 +305,9 @@ class Test_get_common_neighbours(unittest.TestCase):
 
         pairs, cn, inn_nb, out_nb = get_common_neighbours(g)
 
-        self.assertEqual(expected_cn, cn)
-        self.assertEqual(expected_out_nb, out_nb)
-        self.assertEqual(expected_inn_nb, inn_nb)
+        np.testing.assert_array_equal(expected_cn, cn)
+        np.testing.assert_array_equal(expected_out_nb, out_nb)
+        np.testing.assert_array_equal(expected_inn_nb, inn_nb)
 
        
         

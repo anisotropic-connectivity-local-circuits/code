@@ -283,6 +283,7 @@ def get_common_neighbours(g):
             inn_neighbours.append(np.dot(A[i,:],A[j,:]))
             out_neighbours.append(np.dot(A[:,i],A[:,j]))
 
-    return pairs, connections, inn_neighbours, out_neighbours
+    return np.array(pairs), np.array(connections), \
+           np.array(inn_neighbours), np.array(out_neighbours)
     
     
