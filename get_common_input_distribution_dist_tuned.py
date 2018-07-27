@@ -7,7 +7,7 @@ from params.get_common_input_distribution_dist_tuned_params import *
 from get_common_input_distribution_dist_tuned_label import label
 
 import numpy as np
-
+from scipy import stats
 
 np.random.seed(seed)
 
