@@ -51,4 +51,9 @@ class Tuned_netw_dist_profile(object):
             return  self.a/(self.b+pow(x,self.c)) + self.offset
 
     def C(self,x):
+        '''
+        misnamed, should be w(x). see supplementary material
+        for derivation
+        '''
+
         return np.tan(self.ddcp(x)*np.pi)*x
