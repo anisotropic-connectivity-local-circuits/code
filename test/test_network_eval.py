@@ -14,7 +14,9 @@ from comp.functions import ( eval_connectivity,
                              get_dists_of_connected_pairs,
                              get_2neuron_p,
                              get_nmotif_ecounts,
-                             get_common_neighbours )
+                             get_common_neighbours,
+                             get_pref_dir,
+                             get_isotropy_measure )
 
 # functions assisting in testing
 from comp.functions import ( generate_aniso_network,
@@ -309,7 +311,65 @@ class Test_get_common_neighbours(unittest.TestCase):
         np.testing.assert_array_equal(expected_out_nb, out_nb)
         np.testing.assert_array_equal(expected_inn_nb, inn_nb)
 
-       
+
+
+class Test_get_pref_dir(unittest.TestCase):
+
+    def test_docstring_example(self):
+        np.testing.assert_array_almost_equal(
+            get_pref_dir([[4,1],[7,-3],[5,1],[6,3]], 0),
+            [ 0.76903559, -0.03096441], decimal=7)
+
+        
+class Test_get_isotropy_measure(unittest.TestCase):
+
+    def test_empty_graph(self):
+        g = gt.Graph()
+        g.add_vertex(5)
+
+        positions = [[0.,0.]]*5
+        xy = g.new_vertex_property("vector<double>")
+        for k in range(len(positions)):
+            xy[g.vertex(k)] = list(positions[k])
+        g.vertex_properties["xy"] = xy
+
+        np.testing.assert_array_equal(get_isotropy_measure(g), [])
+
+
+    def test_evenly_spread_graph(self):
+        g = gt.Graph()
+        g.add_vertex(5)
+
+        positions = [[0.,0.],[0.,1.],[1.,0.],[-1.,0.],[0.,-1]]
+        xy = g.new_vertex_property("vector<double>")
+        for k in range(len(positions)):
+            xy[g.vertex(k)] = list(positions[k])
+        g.vertex_properties["xy"] = xy
+
+        for i,j in itertools.product(range(5), range(5)):
+            if i!=j:
+                g.add_edge(i,j)
+
+        np.testing.assert_array_equal(get_isotropy_measure(g)[0], [0.,0.])
+
+    
+    def test_evenly_spread_graph_different_lengths(self):
+        g = gt.Graph()
+        g.add_vertex(5)
+
+        positions = [[0.,0.],[0.,1.],[1.,0.],[-5.,0.],[0.,-17]]
+        xy = g.new_vertex_property("vector<double>")
+        for k in range(len(positions)):
+            xy[g.vertex(k)] = list(positions[k])
+        g.vertex_properties["xy"] = xy
+
+        for i,j in itertools.product(range(5), range(5)):
+            if i!=j:
+                g.add_edge(i,j)
+
+        np.testing.assert_array_equal(get_isotropy_measure(g)[0], [0.,0.])
+
+
         
 if __name__ == '__main__':
     unittest.main()

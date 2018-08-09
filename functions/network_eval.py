@@ -286,4 +286,58 @@ def get_common_neighbours(g):
     return np.array(pairs), np.array(connections), \
            np.array(inn_neighbours), np.array(out_neighbours)
     
+
+
+def get_pref_dir(xy, index):
+    '''
+    input: [[4,1],[7,-3],[5,1],[6,3]], 0
+    output: [ 0.76903559, -0.03096441]
+    '''    
+
+    #[[0,0],[3,-4],[1,0],[2,2]]
+    xy_affine = np.subtract(xy, xy[index])
+
+    #[[3,-4],[1,0],[2,2]]
+    vectors = np.delete(xy_affine, index, axis=0)
+    norms = np.apply_along_axis(np.linalg.norm,1,vectors)
     
+    #[[0.6,-0.8],[1,0],[0.70710678,0.70710678]]
+    normalized = (vectors.T/norms).T
+
+    #[ 0.76903559, -0.03096441]
+    pref_dir_normalized = np.sum(normalized,0)/float(len(normalized))
+   
+    return list(pref_dir_normalized)
+
+
+def get_isotropy_measure(g):
+    '''
+    get the isotropy measure (isotropy of connected targets)
+    for each node in graph g
+    '''
+
+    # x- and y-postition in the network
+    xs,ys = get_xy(g)
+
+    # turn
+    #     [[2.56,18.79,...],[45.12,9.48,...]]
+    # into
+    #     [[2.56,45.12],[18.79, 9.48],...]
+    xy = np.array([xs,ys]).T
+
+    iso_vals = []
+    
+    for i in range(g.num_vertices()):
+
+        target_ids = get_target_ids(g,i)
+        
+        xy_targets = xy[target_ids]
+        # add neuron i position at index 0
+        xy_pos = np.concatenate(([xy[i]],xy_targets))
+
+        # only compute preferred direction if there are targets
+        if len(xy_pos) > 1:
+            iso_vals.append(get_pref_dir(xy_pos,0))        
+        
+        
+    return np.array(iso_vals)
